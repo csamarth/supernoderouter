@@ -3,8 +3,7 @@
 #
 
 ## Scenario settings
-#Scenario.name = supernode_scenario_%%Group17.nrofHosts%%_%%Group.router%%
-Scenario.name = %%Group.router%%_scenario
+Scenario.name = commuter_net_scenario
 Scenario.simulateConnections = true
 Scenario.updateInterval = 0.1
 # 43200s == 12h
@@ -21,15 +20,15 @@ Scenario.endTime = 43200
 btInterface.type = SimpleBroadcastInterface
 # Transmit speed of 2 Mbps = 250kBps
 btInterface.transmitSpeed = 250k
-btInterface.transmitRange = 50
+btInterface.transmitRange = 10
 
 # High speed, long range, interface for group 4
-supernodeInterface.type = SimpleBroadcastInterface
-supernodeInterface.transmitSpeed = 5M
-supernodeInterface.transmitRange = 200
+highspeedInterface.type = SimpleBroadcastInterface
+highspeedInterface.transmitSpeed = 10M
+highspeedInterface.transmitRange = 1000
 
 # Define 6 different node groups
-Scenario.nrofHostGroups = 25
+Scenario.nrofHostGroups = 19
 
 ## Group-specific settings:
 # groupID : Group's identifier. Used as the prefix of host names
@@ -53,8 +52,7 @@ Scenario.nrofHostGroups = 25
 
 # Common settings for all groups
 Group.movementModel = ClusterMovement
-#Group.router = [SprayAndWaitRouter; ProphetV2Router]
-Group = SuperNodeRouter
+Group.router = EpidemicRouter
 Group.bufferSize = 5M
 Group.waitTime = 0, 120
 # All nodes have the bluetooth interface
@@ -71,7 +69,7 @@ Group.nrofHosts = 20
 
 # group1 (pedestrians) specific settings
 Group1.groupID = grid00
-Group1.clusterCenter = 425, 425	
+Group1.clusterCenter = 425,	 425	
 
 
 Group2.groupID = grid01
@@ -84,22 +82,16 @@ Group5.groupID = grid10
 Group5.clusterCenter = 425, 1275
 Group6.groupID = grid11
 Group6.clusterCenter = 1275, 1275
-
 Group7.groupID = grid12
 Group7.clusterCenter = 2125, 1275
-
 Group8.groupID = grid13
 Group8.clusterCenter = 2975, 1275
-
 Group9.groupID = grid20
 Group9.clusterCenter = 425, 2125
-
 Group10.groupID = grid21
 Group10.clusterCenter = 1275, 2125
-
 Group11.groupID = grid22
 Group11.clusterCenter = 2125, 2125
-
 Group12.groupID = grid23
 Group12.clusterCenter = 2975, 2125
 
@@ -112,79 +104,37 @@ Group15.clusterCenter = 2125, 2975
 Group16.groupID = grid33
 Group16.clusterCenter = 2975, 2975
 
-# SUPER NODES
+# The Tram groups
+Group17.groupID = t
+Group17.bufferSize = 50M
+Group17.movementModel = MapRouteMovement
+Group17.routeFile = data/tram3.wkt
+Group17.routeType = 1
+Group17.waitTime = 10, 30
+Group17.speed = 7, 10
+Group17.nrofHosts = 2
+Group17.nrofInterfaces = 2
+Group17.interface1 = btInterface
+Group17.interface2 = highspeedInterface
 
-Group17.groupID = s00
-#Group17.nrofHosts = [1; 3; 5]
-Group17.nrofHosts = 5
-Group17.clusterRange = 212
-Group17.clusterCenter = 850, 850
-#Group17.interface1 = supernodeInterface
-Group17.bufferSize = 20M
+Group18.groupID = t
+Group18.bufferSize = 50M
+Group18.movementModel = MapRouteMovement
+Group18.routeFile = data/tram4.wkt
+Group18.routeType = 2
+Group18.waitTime = 10, 30
+Group18.speed = 7, 10
+Group18.nrofHosts = 2
 
-Group18.groupID = s01
-#Group18.nrofHosts = [1; 3; 5]
-Group18.nrofHosts = 5
-Group18.clusterRange = 212
-Group18.clusterCenter = 1700, 850
-#Group18.interface1 = supernodeInterface
-Group18.bufferSize = 20M
+Group19.groupID = t
+Group19.bufferSize = 50M
+Group19.movementModel = MapRouteMovement
+Group19.routeFile = data/tram10.wkt
+Group19.routeType = 2
+Group19.waitTime = 10, 30
+Group19.speed = 7, 10
+Group19.nrofHosts = 2
 
-Group19.groupID = s02
-#Group19.nrofHosts = [1; 3; 5]
-Group19.nrofHosts = 5
-Group19.clusterRange = 212
-Group19.clusterCenter = 2550, 850
-#Group19.interface1 = supernodeInterface
-Group19.bufferSize = 20M
-
-Group20.groupID = s10
-#Group20.nrofHosts = [1; 3; 5]
-Group20.nrofHosts = 5
-Group20.clusterRange = 212
-Group20.clusterCenter = 850, 1700
-#Group20.interface1 = supernodeInterface
-Group20.bufferSize = 20M
-
-Group21.groupID = s11
-#Group21.nrofHosts = [1; 3; 5]
-Group21.nrofHosts = 5
-Group21.clusterRange = 212
-Group21.clusterCenter = 1700, 1700
-#Group21.interface1 = supernodeInterface
-Group21.bufferSize = 20M
-
-Group22.groupID = s12
-#Group22.nrofHosts = [1; 3; 5]
-Group22.nrofHosts = 5
-Group22.clusterRange = 212
-Group22.clusterCenter = 2550, 1700
-#Group22.interface1 = supernodeInterface
-Group22.bufferSize = 20M
-
-Group23.groupID = s20
-#Group23.nrofHosts = [1; 3; 5]
-Group23.nrofHosts = 5
-Group23.clusterRange = 212
-Group23.clusterCenter = 850, 2550
-#Group23.interface1 = supernodeInterface
-Group23.bufferSize = 20M
-
-Group24.groupID = s21
-#Group24.nrofHosts = [1; 3; 5]
-Group24.nrofHosts = 5
-Group24.clusterRange = 212
-Group24.clusterCenter = 1700, 2550
-#Group24.interface1 = supernodeInterface
-Group24.bufferSize = 20M
-
-Group25.groupID = s22
-#Group25.nrofHosts = [1; 3; 5]
-Group25.nrofHosts = 5
-Group25.clusterRange = 212
-Group25.clusterCenter = 2550, 2550
-#Group25.interface1 = supernodeInterface
-Group25.bufferSize = 20M
 
 
 ## Message creation parameters
@@ -196,9 +146,9 @@ Events1.class = MessageEventGenerator
 # Creation interval in seconds (one new message every 25 to 35 seconds)
 Events1.interval = 25,35
 # Message sizes (500kB - 1MB)
-Events1.size = 30k, 50k
+Events1.size = 500k,1M
 # range of message source/destination addresses
-Events1.hosts = 0,169
+Events1.hosts = 0,126
 # Message ID prefix
 Events1.prefix = M
 
@@ -207,7 +157,7 @@ Events1.prefix = M
 # seed for movement models' pseudo random number generator (default = 0)
 MovementModel.rngSeed = 1
 # World's size for Movement Models without implicit size (width, height; meters)
-MovementModel.worldSize = 3400, 3400
+MovementModel.worldSize = 4500, 3400
 # How long time to move hosts in the world before real simulation
 MovementModel.warmup = 1000
 
@@ -222,15 +172,15 @@ MapBasedMovement.mapFile4 = data/shops.wkt
 ## Reports - all report names have to be valid report classes
 
 # how many reports to load
-Report.nrofReports = 1
+Report.nrofReports = 2
 # length of the warm up period (simulated seconds)
-Report.warmup = 1000
+Report.warmup = 0
 # default directory of reports (can be overridden per Report with output setting)
-Report.reportDir = reports/superNode
+Report.reportDir = reports/
 # Report classes to load
 Report.report1 = MessageStatsReport
-#Report.report2 = DeliveredMessagesReport
-#Report.report3 = MessageGraphvizReport
+Report.report2 = ContactTimesReport
+
 ## Default settings for some routers settings
 ProphetRouter.secondsInTimeUnit = 30
 SprayAndWaitRouter.nrofCopies = 6
@@ -249,7 +199,7 @@ GUI.UnderlayImage.fileName = data/helsinki_underlay.png
 # Image offset in pixels (x, y)
 GUI.UnderlayImage.offset = 64, 20
 # Scaling factor for the image
-GUI.UnderlayImage.scale = 0.20
+GUI.UnderlayImage.scale = 4.75
 # Image rotation (radians)
 GUI.UnderlayImage.rotate = -0.015
 
