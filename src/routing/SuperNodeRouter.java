@@ -63,7 +63,6 @@ public class SuperNodeRouter extends ActiveRouter {
 		
 		if (connectedToSuperNode) {
 			for (Message m : messages) {
-				//Check messages for supernode
 				if (m.getTo().toString().substring(0,6).equals(getHost().toString().substring(0,6)))
 					continue;
 				int msgDestCoords[] = getGridCoords(m.getTo());
@@ -71,20 +70,26 @@ public class SuperNodeRouter extends ActiveRouter {
 				int a = currCoords[0] - msgDestCoords[0];
 				int b = currCoords[1] - msgDestCoords[1];
 				int x = currCoords[0], y = currCoords[1];
-				if(a>0){
-					//go up
-					x = currCoords[0] - 1;
-					if(b>0){
-						//go left
-						y = currCoords[1] - 1;
-					}
-				}
-				if (x == superNodeCoords[0] &&
-						y == superNodeCoords[1]) {
-					
-					//transfer to supernode
-						startTransfer(m, superNodeConn);
-				}
+				
+				boolean canSend = false;
+				
+				/*
+				 * The below code checks if the present supernode is suitable for 
+				 * forwarding. Please don't ask me how it works
+				 */
+				canSend = (a>0)?
+							(superNodeCoords[0] == x - 1)?
+								(b>0)?(superNodeCoords[1] == y - 1)?true:false:
+									(b<0)?(superNodeCoords[1] == y)?true:false:true:false:
+						(a<0)?
+							(superNodeCoords[0] == x)?
+								(b>0)?(superNodeCoords[1] == y - 1)?true:false:
+									(b<0)?(superNodeCoords[1] == y)?true:false:true:false:
+						(b>0)?
+							(superNodeCoords[0] == y - 1)? true:false:
+								(b<0)?(superNodeCoords[1] == y)?true:false:true;
+				
+				if (canSend) startTransfer(m, superNodeConn);
 			}
 		} 
 			for (Connection con : connections) {
