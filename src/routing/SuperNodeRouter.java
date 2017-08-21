@@ -9,8 +9,6 @@ import routing.util.RoutingInfo;
 import core.Connection;
 import core.DTNHost;
 import core.Message;
-import core.ModuleCommunicationBus;
-import core.NetworkInterface;
 import core.Settings;
 
 public class SuperNodeRouter extends ActiveRouter {
@@ -26,14 +24,6 @@ public class SuperNodeRouter extends ActiveRouter {
 		this.ackedMessageIds = new HashSet<String>();
 	}
 	
-	@Override
-	public void init(DTNHost host, java.util.List<core.MessageListener> mListeners) {
-		super.init(host, mListeners);
-		if (host.toString().charAt(0)=='s') {
-			ModuleCommunicationBus comBus = getHost().getComBus();
-			comBus.updateProperty(NetworkInterface.RANGE_ID, 200.0);
-		}
-	}
 
 	int[] getGridCoords(DTNHost host) {
 		String gridraw =  host.toString().substring(4, 6);
