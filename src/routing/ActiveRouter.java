@@ -19,6 +19,7 @@ import core.Connection;
 import core.DTNHost;
 import core.Message;
 import core.MessageListener;
+import core.ModuleCommunicationBus;
 import core.NetworkInterface;
 import core.Settings;
 import core.SimClock;
@@ -36,6 +37,13 @@ public abstract class ActiveRouter extends MessageRouter {
 	/** should messages that final recipient marks as delivered be deleted
 	 * from message buffer */
 	protected boolean deleteDelivered;
+	
+	/** Set supernodes' radio range - setting id ({@value}. Double valued.
+	 * Default: 200.0*/
+	public static final String SUPER_NODE_RANGE_S = "superNodeRange";
+	
+	/** SuperNode's radio range */
+	protected double supernodeRange;
 
 	/** prefix of all response message IDs */
 	public static final String RESPONSE_PREFIX = "R_";
@@ -60,6 +68,8 @@ public abstract class ActiveRouter extends MessageRouter {
 		this.policy = new MessageTransferAcceptPolicy(s);
 
 		this.deleteDelivered = s.getBoolean(DELETE_DELIVERED_S, false);
+		
+		this.supernodeRange = s.getDouble(SUPER_NODE_RANGE_S);
 
 		if (s.contains(EnergyModel.INIT_ENERGY_S)) {
 			this.energy = new EnergyModel(s);
@@ -76,6 +86,7 @@ public abstract class ActiveRouter extends MessageRouter {
 		super(r);
 		this.deleteDelivered = r.deleteDelivered;
 		this.policy = r.policy;
+		this.supernodeRange = r.supernodeRange;
 		this.energy = (r.energy != null ? r.energy.replicate() : null);
 	}
 
@@ -84,6 +95,10 @@ public abstract class ActiveRouter extends MessageRouter {
 		super.init(host, mListeners);
 		this.sendingConnections = new ArrayList<Connection>(1);
 		this.lastTtlCheck = 0;
+		if (host.toString().charAt(0)=='s') {
+			ModuleCommunicationBus comBus = getHost().getComBus();
+			comBus.updateProperty(NetworkInterface.RANGE_ID, this.supernodeRange);
+		}
 	}
 
 	/**

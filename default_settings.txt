@@ -1,9 +1,9 @@
 #
 # Default settings for the simulation
 #
-
+Settings.output = set.txt
 ## Scenario settings
-Scenario.name = supernode_scenario_%%Group17.nrofHosts%%_%%Group.router%%
+Scenario.name = supernode_scenario_%%Group17.nrofHosts%%_%%superNodeRange%%_%%Group.router%%
 #Scenario.name = %%Group.router%%_scenario
 Scenario.simulateConnections = true
 Scenario.updateInterval = 0.1
@@ -22,6 +22,9 @@ btInterface.type = SimpleBroadcastInterface
 # Transmit speed of 2 Mbps = 250kBps
 btInterface.transmitSpeed = 250k
 btInterface.transmitRange = 50
+
+Group.superNodeRange = 200.0
+superNodeRange = 200.0
 
 # High speed, long range, interface for group 4
 supernodeInterface.type = SimpleBroadcastInterface
@@ -54,7 +57,7 @@ Scenario.nrofHostGroups = 25
 # Common settings for all groups
 Group.movementModel = ClusterMovement
 #Group.router = [SuperNodeRouter; SprayAndWaitRouter; ProphetRouter; EpidemicRouter; MaxPropRouter]
-Group.router = SuperNodeRouter
+Group.router = [SuperNodeRouter; EpidemicRouter; MaxPropRouter]
 Group.bufferSize = 5M
 Group.waitTime = 0, 120
 # All nodes have the bluetooth interface
@@ -115,63 +118,63 @@ Group16.clusterCenter = 2975, 2975
 # SUPER NODES
 
 Group17.groupID = s00
-Group17.nrofHosts = 5
+Group17.nrofHosts = [1; 2; 3; 4; 5]
 Group17.clusterRange = 212
 Group17.clusterCenter = 850, 850
 #Group17.interface1 = supernodeInterface
 Group17.bufferSize = 20M
 
 Group18.groupID = s01
-Group18.nrofHosts = 5
+Group18.nrofHosts = [1; 2; 3; 4; 5]
 Group18.clusterRange = 212
 Group18.clusterCenter = 1700, 850
 #Group18.interface1 = supernodeInterface
 Group18.bufferSize = 20M
 
 Group19.groupID = s02
-Group19.nrofHosts = 5
+Group19.nrofHosts = [1; 2; 3; 4; 5]
 Group19.clusterRange = 212
 Group19.clusterCenter = 2550, 850
 #Group19.interface1 = supernodeInterface
 Group19.bufferSize = 20M
 
 Group20.groupID = s10
-Group20.nrofHosts = 5
+Group20.nrofHosts = [1; 2; 3; 4; 5]
 Group20.clusterRange = 212
 Group20.clusterCenter = 850, 1700
 #Group20.interface1 = supernodeInterface
 Group20.bufferSize = 20M
 
 Group21.groupID = s11
-Group21.nrofHosts = 5
+Group21.nrofHosts = [1; 2; 3; 4; 5]
 Group21.clusterRange = 212
 Group21.clusterCenter = 1700, 1700
 #Group21.interface1 = supernodeInterface
 Group21.bufferSize = 20M
 
 Group22.groupID = s12
-Group22.nrofHosts = 5
+Group22.nrofHosts = [1; 2; 3; 4; 5]
 Group22.clusterRange = 212
 Group22.clusterCenter = 2550, 1700
 #Group22.interface1 = supernodeInterface
 Group22.bufferSize = 20M
 
 Group23.groupID = s20
-Group23.nrofHosts = 5
+Group23.nrofHosts = [1; 2; 3; 4; 5]
 Group23.clusterRange = 212
 Group23.clusterCenter = 850, 2550
 #Group23.interface1 = supernodeInterface
 Group23.bufferSize = 20M
 
 Group24.groupID = s21
-Group24.nrofHosts = 5
+Group24.nrofHosts = [1; 2; 3; 4; 5]
 Group24.clusterRange = 212
 Group24.clusterCenter = 1700, 2550
 #Group24.interface1 = supernodeInterface
 Group24.bufferSize = 20M
 
 Group25.groupID = s22
-Group25.nrofHosts = 5
+Group25.nrofHosts = [1; 2; 3; 4; 5]
 Group25.clusterRange = 212
 Group25.clusterCenter = 2550, 2550
 #Group25.interface1 = supernodeInterface

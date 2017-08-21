@@ -11,13 +11,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+
 import core.Application;
 import core.Connection;
 import core.DTNHost;
 import core.Message;
 import core.MessageListener;
-import core.ModuleCommunicationBus;
-import core.NetworkInterface;
 import core.Settings;
 import core.SettingsError;
 import core.SimClock;
@@ -159,10 +158,6 @@ public abstract class MessageRouter {
 		this.blacklistedMessages = new HashMap<String, Object>();
 		this.mListeners = mListeners;
 		this.host = host;
-		if (host.toString().charAt(0)=='s') {
-			ModuleCommunicationBus comBus = getHost().getComBus();
-			comBus.updateProperty(NetworkInterface.RANGE_ID, 200.0);
-		}
 	}
 
 	/**
