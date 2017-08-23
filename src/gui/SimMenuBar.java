@@ -101,7 +101,7 @@ public class SimMenuBar extends JMenuBar implements ActionListener {
 		settings.setNameSpace(gui.MainWindow.GUI_NS);
 
 		showNodeName = createCheckItem(pfMenu, "Show node name strings",
-				true, SHOW_NODE_NAMESTR_S);
+				false, SHOW_NODE_NAMESTR_S);
 		showNodeCoverage = createCheckItem(pfMenu,
 				"Show node radio coverages", true, SHOW_RADIO_COVERAGES_S);
 		showNodeConnections = createCheckItem(pfMenu,

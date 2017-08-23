@@ -163,7 +163,8 @@ public class SuperNodeRouter extends ActiveRouter {
 				.equals(message.getTo().toString().substring(0,6)) ) ||
 				message.getTo() == recipient) {
 			this.ackedMessageIds.add(message.getId());
-			this.deleteMessage(message.getId(), false);
+			if (this.hasMessage(message.getId()))
+				this.deleteMessage(message.getId(), false);
 		}
 	}
 	
