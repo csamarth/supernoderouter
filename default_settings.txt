@@ -1,9 +1,9 @@
 #
 # Default settings for the simulation
 #
-Settings.output = set.txt
+#Settings.output = set.txt
 ## Scenario settings
-Scenario.name = supernode_scenario_%%Group17.nrofHosts%%_%%superNodeRange%%_%%Group.router%%
+Scenario.name = supernode_scenario_%%Group.clusterRange%%_%%Group.router%%
 #Scenario.name = %%Group.router%%_scenario
 Scenario.simulateConnections = true
 Scenario.updateInterval = 0.1
@@ -57,7 +57,7 @@ Scenario.nrofHostGroups = 25
 # Common settings for all groups
 Group.movementModel = ClusterMovement
 #Group.router = [SuperNodeRouter; SprayAndWaitRouter; ProphetRouter; EpidemicRouter; MaxPropRouter]
-Group.router = [SuperNodeRouter; EpidemicRouter; MaxPropRouter]
+Group.router = SuperNodeRouter
 Group.bufferSize = 5M
 Group.waitTime = 0, 120
 # All nodes have the bluetooth interface
@@ -67,10 +67,10 @@ Group.interface1 = btInterface
 Group.speed = 0.5, 1.5
 # Message TTL of 300 minutes (5 hours)
 Group.msgTtl = 300
-Group.clusterRange = 425
+#Group.clusterRange = 425
+Group.clusterRange = [400; 375; 350; 325; 300]
 
-
-Group.nrofHosts = 20
+Group.nrofHosts = 25
 
 # group1 (pedestrians) specific settings
 Group1.groupID = grid00
@@ -118,67 +118,76 @@ Group16.clusterCenter = 2975, 2975
 # SUPER NODES
 
 Group17.groupID = s00
-Group17.nrofHosts = [1; 2; 3; 4; 5]
+Group17.nrofHosts = 5
 Group17.clusterRange = 212
 Group17.clusterCenter = 850, 850
 #Group17.interface1 = supernodeInterface
 Group17.bufferSize = 20M
+Group17.msgTtl = 60
 
 Group18.groupID = s01
-Group18.nrofHosts = [1; 2; 3; 4; 5]
+Group18.nrofHosts = 5
 Group18.clusterRange = 212
 Group18.clusterCenter = 1700, 850
 #Group18.interface1 = supernodeInterface
 Group18.bufferSize = 20M
+Group18.msgTtl = 60
 
 Group19.groupID = s02
-Group19.nrofHosts = [1; 2; 3; 4; 5]
+Group19.nrofHosts = 5
 Group19.clusterRange = 212
 Group19.clusterCenter = 2550, 850
 #Group19.interface1 = supernodeInterface
 Group19.bufferSize = 20M
+Group19.msgTtl = 60
 
 Group20.groupID = s10
-Group20.nrofHosts = [1; 2; 3; 4; 5]
+Group20.nrofHosts = 5
 Group20.clusterRange = 212
 Group20.clusterCenter = 850, 1700
 #Group20.interface1 = supernodeInterface
 Group20.bufferSize = 20M
+Group20.msgTtl = 60
 
 Group21.groupID = s11
-Group21.nrofHosts = [1; 2; 3; 4; 5]
+Group21.nrofHosts = 5
 Group21.clusterRange = 212
 Group21.clusterCenter = 1700, 1700
 #Group21.interface1 = supernodeInterface
 Group21.bufferSize = 20M
+Group21.msgTtl = 60
 
 Group22.groupID = s12
-Group22.nrofHosts = [1; 2; 3; 4; 5]
+Group22.nrofHosts = 5
 Group22.clusterRange = 212
 Group22.clusterCenter = 2550, 1700
 #Group22.interface1 = supernodeInterface
 Group22.bufferSize = 20M
+Group22.msgTtl = 60
 
 Group23.groupID = s20
-Group23.nrofHosts = [1; 2; 3; 4; 5]
+Group23.nrofHosts = 5
 Group23.clusterRange = 212
 Group23.clusterCenter = 850, 2550
 #Group23.interface1 = supernodeInterface
 Group23.bufferSize = 20M
+Group23.msgTtl = 60
 
 Group24.groupID = s21
-Group24.nrofHosts = [1; 2; 3; 4; 5]
+Group24.nrofHosts = 5
 Group24.clusterRange = 212
 Group24.clusterCenter = 1700, 2550
 #Group24.interface1 = supernodeInterface
 Group24.bufferSize = 20M
+Group24.msgTtl = 60
 
 Group25.groupID = s22
-Group25.nrofHosts = [1; 2; 3; 4; 5]
+Group25.nrofHosts = 5
 Group25.clusterRange = 212
 Group25.clusterCenter = 2550, 2550
 #Group25.interface1 = supernodeInterface
 Group25.bufferSize = 20M
+Group25.msgTtl = 60
 
 
 ## Message creation parameters
@@ -220,9 +229,12 @@ Report.nrofReports = 1
 # length of the warm up period (simulated seconds)
 Report.warmup = 1000
 # default directory of reports (can be overridden per Report with output setting)
-Report.reportDir = reports/superNode/variable_no_of_supernodes
+Report.reportDir = reports/superNode/variable_cluster_range
 # Report classes to load
 Report.report1 = MessageStatsReport
+#Report.report2 = EnergyLevelReport
+#EnergyLevelReport.granularity = 900
+
 #Report.report2 = DeliveredMessagesReport
 #Report.report3 = MessageGraphvizReport
 ## Default settings for some routers settings
