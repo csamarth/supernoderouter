@@ -86,7 +86,7 @@ public class SuperNodeRouter extends ActiveRouter {
 								(b>0)?(superNodeCoords[1] == y - 1)?true:false:
 									(b<0)?(superNodeCoords[1] == y)?true:false:true:false:
 						(b>0)?
-							(superNodeCoords[0] == y - 1)? true:false:
+							(superNodeCoords[1] == y - 1)? true:false:
 								(b<0)?(superNodeCoords[1] == y)?true:false:true;
 				
 				if (canSend) startTransfer(m, superNodeConn);
