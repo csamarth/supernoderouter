@@ -1,0 +1,20 @@
+Message stats for scenario supernode_scenario_EpidemicRouter_2
+sim_time: 43200.1000
+created: 1429
+started: 370468
+relayed: 368671
+aborted: 1790
+dropped: 361808
+removed: 0
+delivered: 217
+delivery_prob: 0.1519
+response_prob: 0.0000
+overhead_ratio: 1697.9447
+latency_avg: 6160.7765
+latency_med: 4957.0000
+hopcount_avg: 9.6221
+hopcount_med: 7
+buffertime_avg: 730.4049
+buffertime_med: 345.8000
+rtt_avg: NaN
+rtt_med: NaN

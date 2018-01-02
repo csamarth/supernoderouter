@@ -1,1 +1,1 @@
-java -Xmx512M -cp target;lib/ECLA.jar;lib/DTNConsoleConnection.jar core.DTNSim %*
+java -Xmx6144M -Djava.util.Arrays.useLegacyMergeSort=true -cp target;lib/ECLA.jar;lib/DTNConsoleConnection.jar core.DTNSim %*

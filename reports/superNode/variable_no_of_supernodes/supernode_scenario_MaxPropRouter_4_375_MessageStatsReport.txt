@@ -1,0 +1,20 @@
+Message stats for scenario supernode_scenario_MaxPropRouter_4_375
+sim_time: 43200.1000
+created: 1429
+started: 690565
+relayed: 690281
+aborted: 283
+dropped: 352503
+removed: 282444
+delivered: 1194
+delivery_prob: 0.8355
+response_prob: 0.0000
+overhead_ratio: 577.1248
+latency_avg: 4769.3008
+latency_med: 4296.7000
+hopcount_avg: 9.7353
+hopcount_med: 9
+buffertime_avg: 2534.7158
+buffertime_med: 958.5000
+rtt_avg: NaN
+rtt_med: NaN

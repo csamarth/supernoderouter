@@ -1,0 +1,20 @@
+Message stats for scenario supernode_scenario_ProphetRouter_0.7_400
+sim_time: 43200.1000
+created: 1429
+started: 534341
+relayed: 530933
+aborted: 3398
+dropped: 523375
+removed: 0
+delivered: 400
+delivery_prob: 0.2799
+response_prob: 0.0000
+overhead_ratio: 1326.3325
+latency_avg: 6693.8757
+latency_med: 6250.0000
+hopcount_avg: 6.5975
+hopcount_med: 6
+buffertime_avg: 566.4506
+buffertime_med: 161.7000
+rtt_avg: NaN
+rtt_med: NaN

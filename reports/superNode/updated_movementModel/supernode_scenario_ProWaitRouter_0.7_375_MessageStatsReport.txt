@@ -1,0 +1,20 @@
+Message stats for scenario supernode_scenario_ProWaitRouter_0.7_375
+sim_time: 43200.1000
+created: 1429
+started: 7202
+relayed: 7180
+aborted: 22
+dropped: 4932
+removed: 0
+delivered: 235
+delivery_prob: 0.1645
+response_prob: 0.0000
+overhead_ratio: 29.5532
+latency_avg: 2140.3570
+latency_med: 1153.1000
+hopcount_avg: 2.3191
+hopcount_med: 2
+buffertime_avg: 16487.9786
+buffertime_med: 17181.5000
+rtt_avg: NaN
+rtt_med: NaN
