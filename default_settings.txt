@@ -3,7 +3,7 @@
 #
 Settings.output = set.txt
 ## Scenario settings
-Scenario.name = supernode_scenario_%%Group.router%%_%%Group17.snodeCoreProb%%_%%Group.clusterRange%%_%%Group17.nrofHosts%%
+Scenario.name = supernode_scenario_%%Group.router%%_%%Group17.snodeCoreProb%%_%%MovementModel.rngSeed%%
 #Scenario.name = %%Group.router%%_scenario
 Scenario.simulateConnections = true
 Scenario.updateInterval = 0.1
@@ -57,8 +57,8 @@ Scenario.nrofHostGroups = 25
 # Common settings for all groups
 Group.movementModel = ClusterMovement
 #Group.router = [ProWaitRouter; SuperNodeRouter; ProphetRouter; EpidemicRouter; MaxPropRouter]
-Group.router = [ProWaitRouter; ProphetRouter; EpidemicRouter; MaxPropRouter]
-#Group.router = ProWaitRouter
+#Group.router = [ProWaitRouter; ProphetRouter; EpidemicRouter; MaxPropRouter]
+Group.router = SuperNodeRouter
 Group.bufferSize = 5M
 Group.waitTime = 0, 120
 # All nodes have the bluetooth interface
@@ -73,7 +73,7 @@ Group.clusterRange = [375]
 #Group.clusterRange = [325; 350; 375; 400; 425]
 
 
-Group.nrofHosts = 25
+Group.nrofHosts = [25]
 
 ###### ENERGY SETTINGS
 Group.initialEnergy = 18000
@@ -129,100 +129,100 @@ Group16.clusterCenter = 2975, 2975
 # SUPER NODES
 
 Group17.groupID = s00
-Group17.nrofHosts = 5
+Group17.nrofHosts = [3]
 Group17.movementModel = SupernodeMovement
 Group17.snodeRange = 850
 Group17.snodeCenter = 850, 850
 Group17.snodeCoreRange = 212
-Group17.snodeCoreProb = [0.7; 0.8; 0.9]
+Group17.snodeCoreProb = 1
 #Group17.interface1 = supernodeInterface
 Group17.bufferSize = 20M
 Group17.initialEnergy = 30000
 
 Group18.groupID = s01
-Group18.nrofHosts = 5
+Group18.nrofHosts = [3]
 Group18.movementModel = SupernodeMovement
 Group18.snodeRange = 850
 Group18.snodeCenter = 1700, 850
 Group18.snodeCoreRange = 212
-Group18.snodeCoreProb = [0.7; 0.8; 0.9]
+Group18.snodeCoreProb = 1
 #Group18.interface1 = supernodeInterface
 Group18.bufferSize = 20M
 Group18.initialEnergy = 30000
 
 Group19.groupID = s02
-Group19.nrofHosts = 5
+Group19.nrofHosts = [3]
 Group19.movementModel = SupernodeMovement
 Group19.snodeRange = 850
 Group19.snodeCenter = 2550, 850
 Group19.snodeCoreRange = 212
-Group19.snodeCoreProb = [0.7; 0.8; 0.9]
+Group19.snodeCoreProb = 1
 #Group19.interface1 = supernodeInterface
 Group19.bufferSize = 20M
 Group19.initialEnergy = 30000
 
 Group20.groupID = s10
-Group20.nrofHosts = 5
+Group20.nrofHosts = [3]
 Group20.movementModel = SupernodeMovement
 Group20.snodeRange = 850
 Group20.snodeCenter = 850, 1700
 Group20.snodeCoreRange = 212
-Group20.snodeCoreProb = [0.7; 0.8; 0.9]
+Group20.snodeCoreProb = 1
 #Group20.interface1 = supernodeInterface
 Group20.bufferSize = 20M
 Group20.initialEnergy = 30000
 
 Group21.groupID = s11
-Group21.nrofHosts = 5
+Group21.nrofHosts = [3]
 Group21.movementModel = SupernodeMovement
 Group21.snodeRange = 850
 Group21.snodeCenter = 1700, 1700
 Group21.snodeCoreRange = 212
-Group21.snodeCoreProb = [0.7; 0.8; 0.9]
+Group21.snodeCoreProb = 1
 #Group21.interface1 = supernodeInterface
 Group21.bufferSize = 20M
 Group21.initialEnergy = 30000
 
 Group22.groupID = s12
-Group22.nrofHosts = 5
+Group22.nrofHosts = [3]
 Group22.movementModel = SupernodeMovement
 Group22.snodeRange = 850
 Group22.snodeCenter = 2550, 1700
 Group22.snodeCoreRange = 212
-Group22.snodeCoreProb = [0.7; 0.8; 0.9]
+Group22.snodeCoreProb = 1
 #Group22.interface1 = supernodeInterface
 Group22.bufferSize = 20M
 Group22.initialEnergy = 30000
 
 Group23.groupID = s20
-Group23.nrofHosts = 5
+Group23.nrofHosts = [3]
 Group23.movementModel = SupernodeMovement
 Group23.snodeRange = 850
 Group23.snodeCenter = 850, 2550
 Group23.snodeCoreRange = 212
-Group23.snodeCoreProb = [0.7; 0.8; 0.9]
+Group23.snodeCoreProb = 1
 #Group23.interface1 = supernodeInterface
 Group23.bufferSize = 20M
 Group23.initialEnergy = 30000
 
 Group24.groupID = s21
-Group24.nrofHosts = 5
+Group24.nrofHosts = [3]
 Group24.movementModel = SupernodeMovement
 Group24.snodeRange = 850
 Group24.snodeCenter = 1700, 2550
 Group24.snodeCoreRange = 212
-Group24.snodeCoreProb = [0.7; 0.8; 0.9]
+Group24.snodeCoreProb = 1
 #Group24.interface1 = supernodeInterface
 Group24.bufferSize = 20M
 Group24.initialEnergy = 30000
 
 Group25.groupID = s22
-Group25.nrofHosts = 5
+Group25.nrofHosts = [3]
 Group25.movementModel = SupernodeMovement
 Group25.snodeRange = 850
 Group25.snodeCenter = 2550, 2550
 Group25.snodeCoreRange = 212
-Group25.snodeCoreProb = [0.7; 0.8; 0.9]
+Group25.snodeCoreProb = 1
 #Group25.interface1 = supernodeInterface
 Group25.bufferSize = 20M
 Group25.initialEnergy = 30000
@@ -246,7 +246,7 @@ Events1.prefix = M
 
 ## Movement model settings
 # seed for movement models' pseudo random number generator (default = 0)
-MovementModel.rngSeed = 1
+MovementModel.rngSeed = [1; 2; 3; 4; 5]
 # World's size for Movement Models without implicit size (width, height; meters)
 MovementModel.worldSize = 3400, 3400
 # How long time to move hosts in the world before real simulation
@@ -278,10 +278,10 @@ EnergyLevelReport.granularity = 900
 #Report.report3 = MessageGraphvizReport
 ## Default settings for some routers settings
 ProphetRouter.secondsInTimeUnit = 30
-SprayAndWaitRouter.nrofCopies = 6
+SprayAndWaitRouter.nrofCopies = [464]
 SprayAndWaitRouter.binaryMode = true
 
-ProphetRouter.nrofCopies = 6
+ProphetRouter.nrofCopies = [464]
 ProphetRouter.binaryMode = true
 ProWaitRouter.secondsInTimeUnit = 30
 
