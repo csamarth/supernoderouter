@@ -32,6 +32,26 @@ public class GradRouter extends ActiveRouter {
 	}
 	
 	@Override
+	public Message messageTransferred(String id, DTNHost from) {
+		Message msg = super.messageTransferred(id, from);
+		Integer nrofCopies = (Integer) msg.getProperty(MSG_COUNT_PROPERTY);
+		MessageTransferScheme messageTransferScheme = (MessageTransferScheme) msg.getProperty(TRANSFER_TYPE_PROPERTY);
+		
+		/* In case of complete transfer, the nrofCopies does not need to be
+		 * changed whereas in case of no transfer, this function will never
+		 * be called. Hence we have only two options, binary or naive
+		 */
+		if (messageTransferScheme == MessageTransferScheme.BINARY) {
+			nrofCopies = (int) Math.ceil(nrofCopies/2.0);
+		}
+		else {
+			nrofCopies = 1;
+		}
+		msg.updateProperty(MSG_COUNT_PROPERTY, nrofCopies);
+		return msg;
+	}
+	
+	@Override
 	protected void transferDone(Connection con) {
 		Integer newNrofCopies;
 		MessageTransferScheme msgTransferScheme;
