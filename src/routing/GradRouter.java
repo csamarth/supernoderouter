@@ -1,5 +1,6 @@
 package routing;
 
+import core.Connection;
 import core.Coord;
 import core.DTNHost;
 import core.Message;
@@ -28,6 +29,33 @@ public class GradRouter extends ActiveRouter {
 	public GradRouter(GradRouter r) {
 		super(r);
 		this.nrofCopies = r.nrofCopies;
+	}
+	
+	@Override
+	protected void transferDone(Connection con) {
+		Integer newNrofCopies;
+		MessageTransferScheme msgTransferScheme;
+		String msgId = con.getMessage().getId();
+		
+		//The router's copy of message
+		Message m = getMessage(msgId);
+		if (m == null) return;
+		
+		newNrofCopies = (Integer) m.getProperty(MSG_COUNT_PROPERTY);
+		msgTransferScheme = (MessageTransferScheme) m.getProperty(TRANSFER_TYPE_PROPERTY);
+		
+		if (msgTransferScheme == MessageTransferScheme.BINARY) {
+			newNrofCopies /= 2;
+		}
+		else if (msgTransferScheme == MessageTransferScheme.COMPLETE_TRANSFER) {
+			newNrofCopies = 0;
+			deleteMessage(msgId, false);
+		}
+		else if (msgTransferScheme == MessageTransferScheme.NAIVE) {
+			newNrofCopies--;
+		}
+		if (newNrofCopies != 0)
+			m.updateProperty(MSG_COUNT_PROPERTY, newNrofCopies);
 	}
 	
 	@Override
