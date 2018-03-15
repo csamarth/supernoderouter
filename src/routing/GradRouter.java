@@ -54,8 +54,7 @@ public class GradRouter extends ActiveRouter {
 		double alphax = anglesx[0];
 		double thetax = anglesx[1];
 		
-		//what shall we do when px < pi and alphax < thetax?
-		if (thetax < alphax && alphax < (3*thetax))
+		if (alphax < (3*thetax))
 			return MessageTransferScheme.NAIVE;
 		if (alphax > (3 * thetax))
 			return MessageTransferScheme.NO_TRANSFER;
