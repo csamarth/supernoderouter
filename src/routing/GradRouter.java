@@ -2,6 +2,7 @@ package routing;
 
 import core.Coord;
 import core.DTNHost;
+import core.Message;
 import core.NetworkInterface;
 import core.Settings;
 
@@ -29,6 +30,17 @@ public class GradRouter extends ActiveRouter {
 		this.nrofCopies = r.nrofCopies;
 	}
 	
+	@Override
+	public boolean createNewMessage(Message msg) {
+		makeRoomForNewMessage(msg.getSize());
+		
+		msg.setTtl(this.msgTtl);
+		msg.addProperty(MSG_COUNT_PROPERTY, new Integer(nrofCopies));
+		msg.addProperty(TRANSFER_TYPE_PROPERTY, MessageTransferScheme.NO_TRANSFER);
+		addToMessages(msg, true);
+		return true;
+	}
+	
 	private MessageTransferScheme getMessageTransferScheme(DTNHost ni, DTNHost nx, DTNHost to) {
 		if (nx.getLocation().distance(to.getLocation()) < getRadioRange(to))
 			return MessageTransferScheme.COMPLETE_TRANSFER;
@@ -43,7 +55,6 @@ public class GradRouter extends ActiveRouter {
 		double thetax = anglesx[1];
 		
 		//what shall we do when px < pi and alphax < thetax?
-		
 		if (thetax < alphax && alphax < (3*thetax))
 			return MessageTransferScheme.NAIVE;
 		if (alphax > (3 * thetax))
