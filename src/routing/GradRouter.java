@@ -1,5 +1,9 @@
 package routing;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import core.Connection;
 import core.Coord;
 import core.DTNHost;
@@ -30,7 +34,75 @@ public class GradRouter extends ActiveRouter {
 		super(r);
 		this.nrofCopies = r.nrofCopies;
 	}
+
+	@Override
+	public void update() {
+		super.update();
+		if (!canStartTransfer() ||isTransferring()) {
+			return; // nothing to transfer or is currently transferring
+		}
+
+		// try messages that could be delivered to final recipient
+		if (exchangeDeliverableMessages() != null) {
+			return;
+		}
+
+		tryOtherMessages();
+	}
+
+	private void tryOtherMessages() {
+		List <MessageTuple> messages = new ArrayList<MessageTuple>();
+		
+		Collection<Message> messageCollection = getMessageCollection();
+		
+		for (Connection con: getConnections()) {
+			DTNHost other = con.getOtherNode(getHost());
+			GradRouter otherRouter = (GradRouter) other.getRouter();
+			
+			if (otherRouter.isTransferring()) {
+				continue;
+			}
+			
+			for (Message m : messageCollection) {
+				if (otherRouter.hasMessage(m.getId())) {
+					continue;
+				}
+				MessageTransferScheme messageTransferScheme = 
+						getMessageTransferScheme(getHost(), other, m.getTo());
+				
+				if (messageTransferScheme == MessageTransferScheme.NO_TRANSFER) {
+					continue;
+				}
+				/* There's a problem. This property is set for the message and once set,
+				 * it will be valid for all connections. We have to find a way to set it
+				 * per connection. Maybe we can do it by using a 3 tuple instead of two,
+				 * and set this property just before startTransfer().
+				 */
+				//m.updateProperty(TRANSFER_TYPE_PROPERTY, messageTransferScheme);
+				messages.add(new MessageTuple(m, con, messageTransferScheme));
+				//TODO: complete this
+			}
+		}
+		
+		if (messages.size() == 0) return;
+		
+		tryMessagesForGivenConnection(messages);
+	}
 	
+	private void tryMessagesForGivenConnection(List<MessageTuple> messages) {
+		if (messages.size()==0) return;
+		
+		for (MessageTuple t : messages) {
+			Message m = t.getMesssage();
+			Connection con = t.getConnection();
+			m.updateProperty(TRANSFER_TYPE_PROPERTY, t.getScheme());
+			if (startTransfer(m, con) == RCV_OK) {
+				return;
+			}
+			m.updateProperty(TRANSFER_TYPE_PROPERTY, null);
+		}
+	}
+
 	@Override
 	public Message messageTransferred(String id, DTNHost from) {
 		Message msg = super.messageTransferred(id, from);
@@ -48,6 +120,7 @@ public class GradRouter extends ActiveRouter {
 			nrofCopies = 1;
 		}
 		msg.updateProperty(MSG_COUNT_PROPERTY, nrofCopies);
+		msg.updateProperty(TRANSFER_TYPE_PROPERTY, null);
 		return msg;
 	}
 	
@@ -76,6 +149,7 @@ public class GradRouter extends ActiveRouter {
 		}
 		if (newNrofCopies != 0)
 			m.updateProperty(MSG_COUNT_PROPERTY, newNrofCopies);
+		m.updateProperty(TRANSFER_TYPE_PROPERTY, null);
 	}
 	
 	@Override
@@ -154,6 +228,30 @@ public class GradRouter extends ActiveRouter {
 	public MessageRouter replicate() {
 		GradRouter r = new GradRouter(this);	
 		return r;
+	}
+	
+	private class MessageTuple {
+		private Message msg;
+		private Connection conn;
+		private MessageTransferScheme messageTransferScheme;
+		
+		MessageTuple(Message msg, Connection conn, MessageTransferScheme scheme) {
+			this.msg = msg;
+			this.conn = conn;
+			this.messageTransferScheme = scheme;
+		}
+		
+		public Message getMesssage() {
+			return msg;
+		}
+		
+		public Connection getConnection() {
+			return conn;
+		}
+		
+		public MessageTransferScheme getScheme() {
+			return messageTransferScheme;
+		}
 	}
 	
 	private enum MessageTransferScheme {
