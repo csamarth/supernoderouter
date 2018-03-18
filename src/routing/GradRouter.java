@@ -47,10 +47,10 @@ public class GradRouter extends ActiveRouter {
 			return;
 		}
 
-		tryOtherMessages();
+		MessageTuple t = tryOtherMessages();
 	}
 
-	private void tryOtherMessages() {
+	private MessageTuple tryOtherMessages() {
 		List <MessageTuple> messages = new ArrayList<MessageTuple>();
 		
 		Collection<Message> messageCollection = getMessageCollection();
@@ -69,6 +69,7 @@ public class GradRouter extends ActiveRouter {
 				}
 				MessageTransferScheme messageTransferScheme = 
 						getMessageTransferScheme(getHost(), other, m.getTo());
+
 				
 				if (messageTransferScheme == MessageTransferScheme.NO_TRANSFER) {
 					continue;
@@ -80,27 +81,27 @@ public class GradRouter extends ActiveRouter {
 				 */
 				//m.updateProperty(TRANSFER_TYPE_PROPERTY, messageTransferScheme);
 				messages.add(new MessageTuple(m, con, messageTransferScheme));
-				//TODO: complete this
 			}
 		}
 		
-		if (messages.size() == 0) return;
+		if (messages.size() == 0) return null;
 		
-		tryMessagesForGivenConnection(messages);
+		return tryMessagesForGivenConnection(messages);
 	}
 	
-	private void tryMessagesForGivenConnection(List<MessageTuple> messages) {
-		if (messages.size()==0) return;
+	private MessageTuple tryMessagesForGivenConnection(List<MessageTuple> messages) {
+		if (messages.size()==0) return null;
 		
 		for (MessageTuple t : messages) {
 			Message m = t.getMesssage();
 			Connection con = t.getConnection();
 			m.updateProperty(TRANSFER_TYPE_PROPERTY, t.getScheme());
 			if (startTransfer(m, con) == RCV_OK) {
-				return;
+				return t;
 			}
 			m.updateProperty(TRANSFER_TYPE_PROPERTY, null);
 		}
+		return null;
 	}
 
 	@Override
@@ -136,7 +137,7 @@ public class GradRouter extends ActiveRouter {
 		
 		newNrofCopies = (Integer) m.getProperty(MSG_COUNT_PROPERTY);
 		msgTransferScheme = (MessageTransferScheme) m.getProperty(TRANSFER_TYPE_PROPERTY);
-		
+
 		if (msgTransferScheme == MessageTransferScheme.BINARY) {
 			newNrofCopies /= 2;
 		}
@@ -158,7 +159,7 @@ public class GradRouter extends ActiveRouter {
 		
 		msg.setTtl(this.msgTtl);
 		msg.addProperty(MSG_COUNT_PROPERTY, new Integer(nrofCopies));
-		msg.addProperty(TRANSFER_TYPE_PROPERTY, MessageTransferScheme.NO_TRANSFER);
+		msg.addProperty(TRANSFER_TYPE_PROPERTY, null);
 		addToMessages(msg, true);
 		return true;
 	}
@@ -166,11 +167,11 @@ public class GradRouter extends ActiveRouter {
 	private MessageTransferScheme getMessageTransferScheme(DTNHost ni, DTNHost nx, DTNHost to) {
 		if (nx.getLocation().distance(to.getLocation()) < getRadioRange(to))
 			return MessageTransferScheme.COMPLETE_TRANSFER;
-		
+
 		double pi = getProbability(ni, to);
 		double px = getProbability(nx, to);
-		
-		if (px > pi) return MessageTransferScheme.BINARY;
+
+		if (pi > 0 && px > pi) return MessageTransferScheme.BINARY;
 		
 		double[] anglesx = getAngles(nx, to);
 		double alphax = anglesx[0];
@@ -181,14 +182,17 @@ public class GradRouter extends ActiveRouter {
 		if (alphax > (3 * thetax))
 			return MessageTransferScheme.NO_TRANSFER;
 		
-		return null;
+		return MessageTransferScheme.NO_TRANSFER;
 	}
 	
 	private double[] getAngles(DTNHost from, DTNHost to) {
 		Coord fromCoord = from.getLocation();
 		Coord toCoord = to.getLocation();
 		double toRadioRange = getRadioRange(to);
-		double alpha = getAlpha(fromCoord, toCoord, to.getPath().getNextWaypoint());
+		double alpha = Double.NaN;
+		if (from.getPath()!=null && from.getPath().hasNext()) {
+			alpha = getAlpha(fromCoord, toCoord, from.getPath().getNextWaypoint());
+		}
 		double theta = getTheta(fromCoord, toCoord, toRadioRange);
 		return new double[]{alpha, theta};
 	}
@@ -197,6 +201,9 @@ public class GradRouter extends ActiveRouter {
 		double[] angles = getAngles(from, to);
 		double alpha = angles[0];
 		double theta = angles[1];
+		if (Double.isNaN(alpha)) {
+			return 0;
+		}
 		double probability = (theta - alpha)/theta;
 		
 		return probability;
@@ -251,6 +258,12 @@ public class GradRouter extends ActiveRouter {
 		
 		public MessageTransferScheme getScheme() {
 			return messageTransferScheme;
+		}
+
+		@Override
+		public String toString() {
+			return String.format("%s\t%s\t%s",
+				msg,conn.getOtherNode(getHost()),messageTransferScheme);
 		}
 	}
 	
