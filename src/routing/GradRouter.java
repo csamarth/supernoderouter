@@ -74,6 +74,18 @@ public class GradRouter extends ActiveRouter {
 				if (messageTransferScheme == MessageTransferScheme.NO_TRANSFER) {
 					continue;
 				}
+				
+				/*
+				 * A faithful adaptation of spray and wait strategy should compare
+				 * if number of messages is <=1, but in our case the results obtained
+				 * are similar to SnW. However, if we choose to compare with zero, 
+				 * implying no wait state, the delivery rate increases by 10%, but is
+				 * accompanied by an increase in overhead ratio and latency. What shall
+				 * be done?
+				 */
+				if ((Integer)m.getProperty(MSG_COUNT_PROPERTY) <= 0 &&
+						messageTransferScheme != MessageTransferScheme.COMPLETE_TRANSFER)
+				continue;
 				/* There's a problem. This property is set for the message and once set,
 				 * it will be valid for all connections. We have to find a way to set it
 				 * per connection. Maybe we can do it by using a 3 tuple instead of two,
@@ -109,7 +121,7 @@ public class GradRouter extends ActiveRouter {
 		Message msg = super.messageTransferred(id, from);
 		Integer nrofCopies = (Integer) msg.getProperty(MSG_COUNT_PROPERTY);
 		MessageTransferScheme messageTransferScheme = (MessageTransferScheme) msg.getProperty(TRANSFER_TYPE_PROPERTY);
-		
+
 		/* In case of complete transfer, the nrofCopies does not need to be
 		 * changed whereas in case of no transfer, this function will never
 		 * be called. Hence we have only two options, binary or naive
@@ -117,7 +129,8 @@ public class GradRouter extends ActiveRouter {
 		if (messageTransferScheme == MessageTransferScheme.BINARY) {
 			nrofCopies = (int) Math.ceil(nrofCopies/2.0);
 		}
-		else {
+		else if (messageTransferScheme == MessageTransferScheme.NAIVE ||
+				messageTransferScheme == null) {
 			nrofCopies = 1;
 		}
 		msg.updateProperty(MSG_COUNT_PROPERTY, nrofCopies);
@@ -143,13 +156,11 @@ public class GradRouter extends ActiveRouter {
 		}
 		else if (msgTransferScheme == MessageTransferScheme.COMPLETE_TRANSFER) {
 			newNrofCopies = 0;
-			deleteMessage(msgId, false);
 		}
 		else if (msgTransferScheme == MessageTransferScheme.NAIVE) {
 			newNrofCopies--;
 		}
-		if (newNrofCopies != 0)
-			m.updateProperty(MSG_COUNT_PROPERTY, newNrofCopies);
+		m.updateProperty(MSG_COUNT_PROPERTY, newNrofCopies);
 		m.updateProperty(TRANSFER_TYPE_PROPERTY, null);
 	}
 	
@@ -171,16 +182,18 @@ public class GradRouter extends ActiveRouter {
 		double pi = getProbability(ni, to);
 		double px = getProbability(nx, to);
 
-		if (pi > 0 && px > pi) return MessageTransferScheme.BINARY;
+		//System.out.println(pi+"\t"+px);
+
+		if (px > pi) return MessageTransferScheme.BINARY;
 		
 		double[] anglesx = getAngles(nx, to);
 		double alphax = anglesx[0];
 		double thetax = anglesx[1];
 		
+		if (Double.isNaN(alphax) || alphax > (3 * thetax))
+			return MessageTransferScheme.NO_TRANSFER;
 		if (alphax < (3*thetax))
 			return MessageTransferScheme.NAIVE;
-		if (alphax > (3 * thetax))
-			return MessageTransferScheme.NO_TRANSFER;
 		
 		return MessageTransferScheme.NO_TRANSFER;
 	}
@@ -190,21 +203,23 @@ public class GradRouter extends ActiveRouter {
 		Coord toCoord = to.getLocation();
 		double toRadioRange = getRadioRange(to);
 		double alpha = Double.NaN;
-		if (from.getPath()!=null && from.getPath().hasNext()) {
-			alpha = getAlpha(fromCoord, toCoord, from.getPath().getNextWaypoint());
+		if (from.getPath()!=null) {
+			alpha = getAlpha(fromCoord, toCoord, from.getPath().getCurrentWaypoint());
 		}
 		double theta = getTheta(fromCoord, toCoord, toRadioRange);
 		return new double[]{alpha, theta};
 	}
 	
 	private double getProbability(DTNHost from, DTNHost to){
+		double probability;
 		double[] angles = getAngles(from, to);
 		double alpha = angles[0];
 		double theta = angles[1];
 		if (Double.isNaN(alpha)) {
-			return 0;
+			probability = Double.NEGATIVE_INFINITY;
 		}
-		double probability = (theta - alpha)/theta;
+		probability = (theta - alpha)/theta;
+		//System.out.println(alpha+"\t"+theta+"\t"+probability);
 		
 		return probability;
 	}

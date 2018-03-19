@@ -95,6 +95,14 @@ public class Path  {
 	}
 
 	/**
+	 * Returns the current waypoint
+	 * @return the current waypoint
+	 */
+	public Coord getCurrentWaypoint() {
+		return coords.get(nextWpIndex-1);
+	}
+
+	/**
 	 * Returns true if the path has more waypoints, false if not
 	 * @return true if the path has more waypoints, false if not
 	 */
