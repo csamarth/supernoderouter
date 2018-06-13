@@ -3,7 +3,7 @@
 #
 Settings.output = set.txt
 ## Scenario settings
-Scenario.name = supernode_scenario_%%Group.router%%_%%Group17.snodeCoreProb%%_%%MovementModel.rngSeed%%
+Scenario.name = supernode_scenario_%%Group.speed%%_%%Group17.speed%%_%%Group.rou
 #Scenario.name = %%Group.router%%_scenario
 Scenario.simulateConnections = true
 Scenario.updateInterval = 0.1
@@ -56,15 +56,16 @@ Scenario.nrofHostGroups = 25
 
 # Common settings for all groups
 Group.movementModel = ClusterMovement
-#Group.router = [ProWaitRouter; SuperNodeRouter; ProphetRouter; EpidemicRouter; MaxPropRouter]
-#Group.router = [ProWaitRouter; ProphetRouter; EpidemicRouter; MaxPropRouter]
-Group.router = SuperNodeRouter
-Group.bufferSize = 5M
+#Group.router = [ProWaitRouter; SuperNodeRouter; ProphetRouter; EpidemicRouter; MaxPropRouter; GradRouter]
+Group.router = [ProWaitRouter; ProphetRouter; EpidemicRouter; MaxPropRouter; GradRouter]
+#Group.router = SuperNodeRouter
+Group.bufferSize = [5M]
 Group.waitTime = 0, 120
 # All nodes have the bluetooth interface
 Group.nrofInterfaces = 1
 Group.interface1 = btInterface
 # Walking speeds
+#Group.speed = [0.25, 1.25; 0.5, 1.5; 0.75, 1.75; 1.0, 2.0; 1.25, 2.25]
 Group.speed = 0.5, 1.5
 # Message TTL of 300 minutes (5 hours)
 Group.msgTtl = 300
@@ -138,6 +139,8 @@ Group17.snodeCoreProb = 1
 #Group17.interface1 = supernodeInterface
 Group17.bufferSize = 20M
 Group17.initialEnergy = 30000
+#Group17.speed = [1.25, 1.25; 1.5, 1.5; 1.75, 1.75; 2.0, 2.0; 2.25, 2.25]
+Group17.speed = 1.5, 1.5
 
 Group18.groupID = s01
 Group18.nrofHosts = [3]
@@ -149,6 +152,8 @@ Group18.snodeCoreProb = 1
 #Group18.interface1 = supernodeInterface
 Group18.bufferSize = 20M
 Group18.initialEnergy = 30000
+#Group18.speed = [1.25, 1.25; 1.5, 1.5; 1.75, 1.75; 2.0, 2.0; 2.25, 2.25]
+Group18.speed = 1.5, 1.5
 
 Group19.groupID = s02
 Group19.nrofHosts = [3]
@@ -160,6 +165,8 @@ Group19.snodeCoreProb = 1
 #Group19.interface1 = supernodeInterface
 Group19.bufferSize = 20M
 Group19.initialEnergy = 30000
+#Group19.speed = [1.25, 1.25; 1.5, 1.5; 1.75, 1.75; 2.0, 2.0; 2.25, 2.25]
+Group19.speed = 1.5, 1.5
 
 Group20.groupID = s10
 Group20.nrofHosts = [3]
@@ -171,6 +178,8 @@ Group20.snodeCoreProb = 1
 #Group20.interface1 = supernodeInterface
 Group20.bufferSize = 20M
 Group20.initialEnergy = 30000
+#Group20.speed = [1.25, 1.25; 1.5, 1.5; 1.75, 1.75; 2.0, 2.0; 2.25, 2.25]
+Group20.speed = 1.5, 1.5
 
 Group21.groupID = s11
 Group21.nrofHosts = [3]
@@ -182,6 +191,8 @@ Group21.snodeCoreProb = 1
 #Group21.interface1 = supernodeInterface
 Group21.bufferSize = 20M
 Group21.initialEnergy = 30000
+#Group21.speed = [1.25, 1.25; 1.5, 1.5; 1.75, 1.75; 2.0, 2.0; 2.25, 2.25]
+Group21.speed = 1.5, 1.5
 
 Group22.groupID = s12
 Group22.nrofHosts = [3]
@@ -193,6 +204,9 @@ Group22.snodeCoreProb = 1
 #Group22.interface1 = supernodeInterface
 Group22.bufferSize = 20M
 Group22.initialEnergy = 30000
+#Group22.speed = [1.25, 1.25; 1.5, 1.5; 1.75, 1.75; 2.0, 2.0; 2.25, 2.25]
+Group22.speed = 1.5, 1.5
+
 
 Group23.groupID = s20
 Group23.nrofHosts = [3]
@@ -204,6 +218,8 @@ Group23.snodeCoreProb = 1
 #Group23.interface1 = supernodeInterface
 Group23.bufferSize = 20M
 Group23.initialEnergy = 30000
+#Group23.speed = [1.25, 1.25; 1.5, 1.5; 1.75, 1.75; 2.0, 2.0; 2.25, 2.25]
+Group23.speed = 1.5, 1.5
 
 Group24.groupID = s21
 Group24.nrofHosts = [3]
@@ -215,6 +231,8 @@ Group24.snodeCoreProb = 1
 #Group24.interface1 = supernodeInterface
 Group24.bufferSize = 20M
 Group24.initialEnergy = 30000
+#Group24.speed = [1.25, 1.25; 1.5, 1.5; 1.75, 1.75; 2.0, 2.0; 2.25, 2.25]
+Group24.speed = 1.5, 1.5
 
 Group25.groupID = s22
 Group25.nrofHosts = [3]
@@ -226,6 +244,8 @@ Group25.snodeCoreProb = 1
 #Group25.interface1 = supernodeInterface
 Group25.bufferSize = 20M
 Group25.initialEnergy = 30000
+#Group25.speed = [1.25, 1.25; 1.5, 1.5; 1.75, 1.75; 2.0, 2.0; 2.25, 2.25]
+Group25.speed = 1.5, 1.5
 
 
 ## Message creation parameters
@@ -246,7 +266,7 @@ Events1.prefix = M
 
 ## Movement model settings
 # seed for movement models' pseudo random number generator (default = 0)
-MovementModel.rngSeed = [1; 2; 3; 4; 5]
+MovementModel.rngSeed = [1]
 # World's size for Movement Models without implicit size (width, height; meters)
 MovementModel.worldSize = 3400, 3400
 # How long time to move hosts in the world before real simulation
@@ -267,7 +287,7 @@ Report.nrofReports = 2
 # length of the warm up period (simulated seconds)
 Report.warmup = 1000
 # default directory of reports (can be overridden per Report with output setting)
-Report.reportDir = reports/superNode/updated_movementModel_variable_supernodes
+Report.reportDir = reports/superNode/fixed_speed_variable_routers
 # Report classes to load
 #Report.report1 = MessageGraphvizReport
 Report.report1 = MessageStatsReport
@@ -284,6 +304,7 @@ SprayAndWaitRouter.binaryMode = true
 ProphetRouter.nrofCopies = [464]
 ProphetRouter.binaryMode = true
 ProWaitRouter.secondsInTimeUnit = 30
+GradRouter.nrofCopies = 6
 
 ## Optimization settings -- these affect the speed of the simulation
 ## see World class for details.

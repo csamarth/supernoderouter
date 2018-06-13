@@ -83,7 +83,7 @@ public class GradRouter extends ActiveRouter {
 				 * accompanied by an increase in overhead ratio and latency. What shall
 				 * be done?
 				 */
-				if ((Integer)m.getProperty(MSG_COUNT_PROPERTY) <= 0 &&
+				if ((Integer)m.getProperty(MSG_COUNT_PROPERTY) <= 1 &&
 						messageTransferScheme != MessageTransferScheme.COMPLETE_TRANSFER)
 				continue;
 				/* There's a problem. This property is set for the message and once set,
