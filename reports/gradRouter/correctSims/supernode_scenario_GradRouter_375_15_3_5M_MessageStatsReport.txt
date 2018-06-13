@@ -1,0 +1,20 @@
+Message stats for scenario supernode_scenario_GradRouter_375_15_3_5M
+sim_time: 43200.1000
+created: 1429
+started: 7675
+relayed: 7656
+aborted: 19
+dropped: 5443
+removed: 0
+delivered: 124
+delivery_prob: 0.0868
+response_prob: 0.0000
+overhead_ratio: 60.7419
+latency_avg: 2096.2613
+latency_med: 1074.0000
+hopcount_avg: 2.1855
+hopcount_med: 2
+buffertime_avg: 15790.1655
+buffertime_med: 16615.2000
+rtt_avg: NaN
+rtt_med: NaN

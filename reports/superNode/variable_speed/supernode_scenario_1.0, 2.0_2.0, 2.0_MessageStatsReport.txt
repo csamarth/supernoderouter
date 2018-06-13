@@ -1,0 +1,20 @@
+Message stats for scenario supernode_scenario_1.0, 2.0_2.0, 2.0
+sim_time: 43200.1000
+created: 1429
+started: 137621
+relayed: 136671
+aborted: 950
+dropped: 69793
+removed: 64074
+delivered: 775
+delivery_prob: 0.5423
+response_prob: 0.0000
+overhead_ratio: 175.3497
+latency_avg: 3609.6507
+latency_med: 2824.1000
+hopcount_avg: 8.9316
+hopcount_med: 8
+buffertime_avg: 919.4396
+buffertime_med: 470.8000
+rtt_avg: NaN
+rtt_med: NaN
