@@ -1,6 +1,6 @@
 # Supernode Routing : A grid-based message passing scheme for sparse opportunistic networks
 
-[Subham Kumaram](https://github.com/shubhamkrm) and I proposed a novel routing algorithm suitable for sparse networks in scenarios such as cities connected to each other through bus routes or troops stationed in different units bridged by the help of runners. This original research work was published at the peer-reviewed international journal, [The Journal of Ambient Intelligence and Humanized Computing, Springer](https://doi.org/10.1007/s12652-018-0993-y).
+[Subham Kumaram](https://github.com/shubhamkrm) and I proposed a novel routing algorithm suitable for sparse networks in scenarios such as cities connected to each other through bus routes or troops stationed in different units bridged by the help of runners. This original research work was published at the peer-reviewed international journal, [The Journal of Ambient Intelligence and Humanized Computing, Springer](https://www.springer.com/journal/12652/about) and can be found [here](https://doi.org/10.1007/s12652-018-0993-y).
 
 # Index
 
